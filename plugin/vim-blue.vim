@@ -1,5 +1,5 @@
 function! OpenContent(content)
-  enew
+  enew!
   silent put =a:content
   execute '%!python -m json.tool'
   execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
