@@ -1,0 +1,44 @@
+*blue.txt*                                                vim Blue Net plugin
+==============================================================================
+Author : salo <https://github.com/winterbesos>
+License: MIT license
+NOTE: This doc may be outdated, please refer to the README file instead,
+    https://github.com/winterbesos/vim-blue/blob/main/README.md
+    or
+    ../README.md(put the cursor on this and type `gf`
+==============================================================================
+
+CONTENTS                                         *blue-contents*
+Introduction                                     |blue-introduction|
+Options                                          |blue-options|
+Mapping                                          |blue-mappings|
+Commands                                         |blue-commands|
+Highlight                                        |blue-highlight|
+Extensions                                       |blue-extensions|
+Integrations                                     |blue-integrations|
+FAQ                                              |blue-faq|
+Repository                                       |blue-repository|
+
+==============================================================================
+COMMANDS                                                      *blue-commands*
+
+:Border [identifier]                                          *Border*
+        Open a order info buffer.
+
+:Bplan [identifier]                                           *Bplan* 
+        Open a plan info buffer.
+
+:Bstaff [identifier]                                          *Bstaff*
+        Open a staff info buffer.
+
+:Bcustomer [identifier]                                       *Bcustomer*
+        Open a customer info buffer.
+
+:Borg [identifier]                                            *Borg*
+        Open a org info buffer.
+
+:Bjgorder [identifier]                                        *Bjgorder*
+        Open a JG order info buffer.
+
+:Bagencyorder [identifier]                                    *Bagencyorder*
+        Open a courier task info buffer.
