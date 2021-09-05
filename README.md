@@ -1,13 +1,23 @@
 # vim-blue
 For Blue Net
 
-### Install:
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+
+## Installation
+
+- vim-plug
+
+```vim
+Plug 'voldikss/vim-floaterm'
+```
 
 dependencies:
 
 [mattn/webapi-vim](https://github.com/mattn/webapi-vim)
 
-### Configuration
+## Configuration
 
 Adding the following lines to your `vimrc` file.
 
@@ -16,7 +26,7 @@ let g:blue_token = '{YOUR_BIZ_SERVER_ACCESS_TOKEN}'
 let g:blue_base_url = '{YOUR_BIZ_SERVER_BASE_URL}'
 ```
 
-### Usage
+## Usage
 ```
 :Border {ORDER_NO} Query order info, and display it in new buffer.
 :Bplan {ORDER_NO} Query plan info, and display it in new buffer.
