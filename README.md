@@ -9,7 +9,9 @@ dependencies:
 
 ### Configuration
 
+Adding the following lines to your `vimrc` file.
+
 ```
 let g:blue_token = '{YOUR_BIZ_SERVER_ACCESS_TOKEN}'
-let g:blue_base_url = {YOUR_BIZ_SERVER_BASE_URL}'
+let g:blue_base_url = '{YOUR_BIZ_SERVER_BASE_URL}'
 ```
