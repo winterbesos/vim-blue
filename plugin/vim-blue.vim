@@ -6,8 +6,10 @@ function! OpenContent(content)
   set filetype=json
 endfunction
 
-function! ShowObject(type)
-  let identifier = expand("<cword>")
+function! ShowObject(type,...)
+  let cword = expand("<cword>")
+  let identifier = get(a:, 1, cword)
+
   let url = printf("%s?type=%s&identifier=%s", g:blue_base_url, a:type, identifier)
   let ret = webapi#http#get(url, {}, {'token': g:blue_token, 'content-type': 'application/json'})
   if ret.status == '404'
@@ -16,3 +18,17 @@ function! ShowObject(type)
   endif
   call OpenContent(ret.content)
 endfunction
+
+function! ShowObjectWithCword(type)
+  let identifier = expand("<cword>")
+  call ShowObject(type, identifier)
+endfunction
+
+
+command -nargs=? Border :call ShowObject("order", <args>)
+command -nargs=? Bplan :call ShowObject('plan', <args>)
+command -nargs=? Bstaff :call ShowObject('staff', <args>)
+command -nargs=? Bcustomer :call ShowObject('customer', <args>)
+command -nargs=? Borg :call ShowObject('org', <args>)
+command -nargs=? Bjgorder :call ShowObject('jg-order', <args>)
+command -nargs=? Bagencyorder :call ShowAgencyOrder('agency-order', <args>)
