@@ -10,7 +10,7 @@ For Blue Net
 - vim-plug
 
 ```vim
-Plug 'voldikss/vim-floaterm'
+Plug 'winterbesos/vim-blue'
 ```
 
 dependencies:
