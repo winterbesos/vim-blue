@@ -35,5 +35,6 @@ let g:blue_base_url = '{YOUR_BIZ_SERVER_BASE_URL}'
 :Borg {ORG_CODE} Query "org info, and display it in new buffer.
 :Bjgorder {JG_ORDER_NO} "Query JG order info, and display it in new buffer.
 :Bagencyorder {AGENCY_ORDER_NO} "Query courier task info, and display it in new buffer.
+:Bcompany {COMPANY_CODE} "Query company info, and display it in new buffer.
 ```
 If the parameter not exists, it will query the `identifier` the cursor on.

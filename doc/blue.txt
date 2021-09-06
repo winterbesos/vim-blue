@@ -42,3 +42,6 @@ COMMANDS                                                      *blue-commands*
 
 :Bagencyorder [identifier]                                    *Bagencyorder*
         Open a courier task info buffer.
+
+:Bcompany [identifier]                                        *Bcompany*
+        Open a company info buffer.
