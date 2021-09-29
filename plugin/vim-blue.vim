@@ -27,6 +27,7 @@ endfunction
 
 command -nargs=? Border :call ShowObject("order", <args>)
 command -nargs=? Bplan :call ShowObject('plan', <args>)
+command -nargs=? Btrace :call ShowObject('trace', <args>)
 command -nargs=? Bstaff :call ShowObject('staff', <args>)
 command -nargs=? Bcustomer :call ShowObject('customer', <args>)
 command -nargs=? Borg :call ShowObject('org', <args>)
