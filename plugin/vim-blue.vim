@@ -68,7 +68,7 @@ function! GetToken()
 endfunction
 
 function! GetSuggestTypes(value)
-  let regs = { 'order': '^[0-9]{14}$', 'plan': '^[0-9]{14}$', 'trace': '^[0-9]{14}$', 'task': '^[0-9]{17,18}$', 'customer': '^[0-9]{19}$', 'staff': '^[0-9]{19}$', 'org': '^XL[0-9]{6}$', 'task': '^[0-9]{19}$', 'taking-task-order': '^[0-9]{14}$', 'sending-task-order': '^[0-9]{14}$' }
+  let regs = { 'order': '^[0-9]{14}$', 'plan': '^[0-9]{14}$', 'trace': '^[0-9]{14}$', 'customer': '^[0-9]{19}$', 'staff': '^[0-9]{19}$', 'org': '^XL[0-9]{6}$', 'task': '^[0-9]{19}$', 'taking-task-order': '^[0-9]{14}$', 'sending-task-order': '^[0-9]{14}$' }
   let types = []
   for key in keys(regs)
     let type = matchstr(a:value, '\v' . regs[key])
