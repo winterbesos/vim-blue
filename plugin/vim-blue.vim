@@ -6,8 +6,8 @@ function! OpenObjectContent(content, buffer)
   execute ':%d'
   set buftype=nofile
   silent put =a:content
-  slient execute '%!python -m json.tool'
-  slient execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
+  silent execute '%!python -m json.tool'
+  silent execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
   set filetype=json
   set buflisted
   set nomodifiable
