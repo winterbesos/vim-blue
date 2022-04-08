@@ -1,9 +1,19 @@
-function! OpenObjectContent(content)
-  enew!
+function! OpenObjectContent(content, buffer)
+  call bufadd(a:buffer)
+  execute ':buffer! ' . a:buffer
+
+  set modifiable
+  execute ':%d'
+"
+"enew!
+  set buftype=nofile
   silent put =a:content
   execute '%!python -m json.tool'
   execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
+"  execute 'file ' . a:buffer
   set filetype=json
+  set buflisted
+  set nomodifiable
 endfunction
 
 function! OpenTextContent(content)
@@ -11,10 +21,14 @@ function! OpenTextContent(content)
   silent put =a:content
 endfunction
 
+function! GetBufferName(type, identifier)
+  return a:type . ':' . a:identifier
+endfunction
+
 function! ShowObject(type,...)
   let cword = expand("<cword>")
   let identifier = get(a:, 1, cword)
-
+  let buffer = GetBufferName(a:type, identifier)
   let token = GetToken()
 
   let url = printf("%s?type=%s&identifier=%s", g:blue_base_url, a:type, identifier)
@@ -23,7 +37,7 @@ function! ShowObject(type,...)
     echo a:type . ': ' . identifier . ' NOT FOUND'
     return
   endif
-  call OpenObjectContent(ret.content)
+  call OpenObjectContent(ret.content, buffer)
 endfunction
 
 function! ShowObjectWithSuggestionType()
