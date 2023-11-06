@@ -72,10 +72,10 @@ function! ShowObjectWithCword(type)
 endfunction
 
 function! GetToken()
-  let res = webapi#http#get(g:blue_token_address)
-  let obj = webapi#json#decode(res.content)
-
-  return obj.GET
+  return g:blue_token
+  #let res = webapi#http#get(g:blue_token_address)
+  #let obj = webapi#json#decode(res.content)
+  #return obj.GET
 endfunction
 
 function! GetSuggestTypes(value)
