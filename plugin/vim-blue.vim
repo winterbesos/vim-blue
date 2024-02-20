@@ -1,7 +1,6 @@
 function! OpenObjectContent(content, buffer)
   call bufadd(a:buffer)
   execute ':buffer! ' . a:buffer
-
   set modifiable
   execute ':%d'
   set buftype=nofile
@@ -28,7 +27,7 @@ function! ShowObject(type,...)
   let buffer = GetBufferName(a:type, identifier)
   let token = GetToken()
 
-  let url = printf("%s?type=%s&identifier=%s", g:blue_base_url, a:type, identifier)
+  let url = printf("%s/observer?type=%s&identifier=%s", g:blue_base_url, a:type, identifier)
   let ret = webapi#http#get(url, {}, {'token': token, 'content-type': 'application/json'})
   if ret.status == '404'
     echo a:type . ': ' . identifier . ' NOT FOUND'
@@ -53,17 +52,50 @@ function! ShowObjectWithSuggestionType()
   call ShowObject(choiceType, cword)
 endfunction
 
+function! ShowIdentifierWithSuggestionType(identifier)
+  let cword = a:identifier
+  let types = GetSuggestTypes(cword)
+  
+  if len(types) > 1
+    let choiceType = AskForSuggestType(types)
+  elseif len(types) == 1
+    let choiceType = types[0]
+  else
+    echo 'Suggest object type NOT FOUND'
+    return
+  endif
+
+  call ShowObject(choiceType, cword)
+endfunction
+
 function! ShowText(type,...)
   let cword = expand("<cword>")
   let identifier = get(a:, 1, cword)
 
-  let url = printf("%s?type=%s&identifier=%s", g:blue_base_url, a:type, identifier)
-  let ret = webapi#http#get(url, {}, {'token': g:blue_token, 'content-type': 'application/json'})
+  let url = printf("%s/observer?type=%s&identifier=%s", g:blue_base_url, a:type, identifier)
+  let ret = webapi#http#get(url, {}, {'token': g:blue_token })
   if ret.status == '404'
     echo a:type . ': ' . identifier . ' NOT FOUND'
     return
   endif
   call OpenTextContent(ret.content)
+endfunction
+
+function! ReloadTypes()
+  call LoadTypes()
+  echo 'Reload Types Finished!'
+endfunction
+
+function! LoadTypes()
+  let cword = expand("<cword>")
+  let identifier = get(a:, 1, cword)
+
+  let ret = webapi#http#get(g:blue_base_url . '/types', {}, {})
+  if ret.status == '404'
+    echo 'types NOT FOUND'
+    return
+  endif
+  let g:blueTypes = json_decode(ret.content)
 endfunction
 
 function! ShowObjectWithCword(type)
@@ -79,14 +111,13 @@ function! GetToken()
 endfunction
 
 function! GetSuggestTypes(value)
-  let regs = { 'order': '^[0-9]{14}$', 'plan': '^[0-9]{14}$', 'trace': '^[0-9]{14}$', 'customer': '^[0-9]{19}$', 'staff': '^[0-9]{19}$', 'org': '^XL[0-9]{6}$', 'task': '^[0-9]{19}$', 'taking-task-order': '^[0-9]{14}$', 'sending-task-order': '^[0-9]{14}$' }
   let types = []
-  for key in keys(regs)
-    let type = matchstr(a:value, '\v' . regs[key])
+  for bt in g:blueTypes
+    let type = matchstr(a:value, '\v' . bt['identifierRegex'])
     if empty(type)
       continue
     endif
-    call add(types, key)
+    call add(types, bt['code'])
   endfor
 
   return types
@@ -115,15 +146,8 @@ function! AskForSuggestType(types) abort
   endwhile
 endfunction
 
+call LoadTypes()
 
-command! -nargs=? Border :call ShowObject("order", <args>)
-command! -nargs=? Bplan :call ShowObject('plan', <args>)
-command! -nargs=? Btrace :call ShowObject('trace', <args>)
-command! -nargs=? Bstaff :call ShowObject('staff', <args>)
-command! -nargs=? Bcustomer :call ShowObject('customer', <args>)
-command! -nargs=? Borg :call ShowObject('org', <args>)
-command! -nargs=? Bjgorder :call ShowObject('jg-order', <args>)
-command! -nargs=? Bagencyorder :call ShowObject('agency-order', <args>)
-command! -nargs=? Bcompany :call ShowObject('company', <args>)
-command! -nargs=? Blog :call ShowText('log', <args>)
 command! -nargs=? Bo :call ShowObjectWithSuggestionType(<args>)
+command! -nargs=? Bi :call ShowIdentifierWithSuggestionType(<args>)
+command! -nargs=? Brl :call ReloadTypes()
